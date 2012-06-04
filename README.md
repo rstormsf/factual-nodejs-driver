@@ -28,23 +28,23 @@ var factual = new Factual('YOUR_KEY', 'YOUR_SECRET');
 `````javascript
 // Fulltext search doc:
 // http://developer.factual.com/display/docs/Core+API+-+Search+Filters
-factual.get('/t/places?q=starbucks&include_count=true', function (error, res) {
+factual.get('/t/places',{q:"starbucks", "include_count":"true"}, function (error, res) {
   console.log("show "+ res.included_rows +"/"+ res.total_row_count +" rows:", res.data);
 });
 
 // Row Filters doc:
 // http://developer.factual.com/display/docs/Core+API+-+Row+Filters
-factual.get('/t/places?q=starbucks&filters={"region":"CA"}', function (error, res) {
+factual.get('/t/places', {q:"starbucks", filters:{"region":"CA"}}, function (error, res) {
   console.log(res.data);
 });
 
-factual.get('/t/places?q=starbucks&filters={"$or":[{"region":{"$eq":"CA"}},{"locality":"newyork"}]}', function (error, res) {
+factual.get('/t/places', {q:"starbucks", filters:{"$or":[{"region":{"$eq":"CA"}},{"locality":"newyork"}]}}, function (error, res) {
   console.log(res.data);
 });
 
 // Geo filter doc:
 // http://developer.factual.com/display/docs/Core+API+-+Geo+Filters
-factual.get('/t/places?q=starbucks&geo={"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}', function (error, res) {
+factual.get('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}', function (error, res) {
   console.log(res.data);
 });
 `````
@@ -60,7 +60,7 @@ factual.get('/t/places/schema', function (error, res) {
 ## Facets
 `````javascript
 // show top 5 cities that have more than 20 starbucks in california
-factual.get('/t/places/facets?q=starbucks&filters={"region":"CA"}&select=locality&min_count=20&limit=5', function (error, res) {
+factual.get('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5}, function (error, res) {
   console.log(res.data);
 });
 `````
@@ -68,14 +68,14 @@ factual.get('/t/places/facets?q=starbucks&filters={"region":"CA"}&select=localit
 ## Crosswalk
 Query with factual id, and only show entites from yelp and foursquare:
 `````javascript
-factual.get('/places/crosswalk?factual_id=57ddbca5-a669-4fcf-968f-a1c8210a479a&only=yelp,foursquare', function (error, res) {
+factual.get('/places/crosswalk', {"factual_id":"57ddbca5-a669-4fcf-968f-a1c8210a479a", only:"yelp,foursquare"}, function (error, res) {
   console.log(res.data);
 });
 `````
 
 Or query with an entity from foursquare:
 `````javascript
-factual.get('/places/crosswalk?namespace=foursquare&namespace_id=4ae4df6df964a520019f21e3', function (error, res) {
+factual.get('/places/crosswalk', {namespace:"foursquare", "namespace_id":"4ae4df6df964a520019f21e3"}, function (error, res) {
   console.log(res.data);
 });
 `````
@@ -83,19 +83,27 @@ factual.get('/places/crosswalk?namespace=foursquare&namespace_id=4ae4df6df964a52
 ## Resolve
 Resolve the entity from name and address:
 `````javascript
-factual.get('/places/resolve?values={"name":"huckleberry","address":"1014 Wilshire Blvd"}', function (error, res) {
+factual.get('/places/resolve', {values:{"name":"huckleberry","address":"1014 Wilshire Blvd"}}, function (error, res) {
   console.log(res.data);
 });
 `````
 Resolve from name and location
 `````javascript
-factual.get('/places/resolve?values={"name":"huckleberry","latitude":34.023827,"longitude":-118.49251}', function (error, res) {
+factual.get('/places/resolve', {values:{"name":"huckleberry","latitude":34.023827,"longitude":-118.49251}}, function (error, res) {
   console.log(res.data);
 });
 `````
 
+## Error handling
+There are 3 types of errors that will be passed to the callback function, as they have different values for their "from" attribute:
+* request: the request didn't get sent successfully 
+* response: normally it is caused by the bad format of JSON response
+* factual: response from factual is an error response
+You can get the detail error object from the "error" attribute.
+
+
 ## Debug
-Set debug mode to show debug information(request url, response json, etc)
+Set debug mode to show debug information
 `````javascript
 // start debug mode
 factual.startDebug();
