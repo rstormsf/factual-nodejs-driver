@@ -7,6 +7,7 @@ This is a nodejs client package for [Factual's public API](http://developer.fact
 *   [Facets](http://developer.factual.com/display/docs/Core+API+-+Facets): Count group of data
 *   [Crosswalk](http://developer.factual.com/display/docs/Places+API+-+Crosswalk): Get third-party IDs
 *   [Resolve](http://developer.factual.com/display/docs/Places+API+-+Resolve): Enrich your data and match it against Factual's
+*   [Multi](http://developer.factual.com/display/docs/Core+API+-+Multi): Enable making multiple API GET requests on the same connection
 
 # Install
 
@@ -94,19 +95,29 @@ factual.get('/places/resolve', {values:{"name":"huckleberry","latitude":34.02382
 });
 `````
 
-## Error handling
-There are 3 types of errors that will be passed to the callback function, as they have different values for their "from" attribute:
-* request: the request didn't get sent successfully 
-* response: normally it is caused by the bad format of JSON response
-* factual: response from factual is an error response
-You can get the detail error object from the "error" attribute.
+## Multi
+Query read and facets in one request:
+`````javascript
+var readQuery = factual.requestUrl('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
+var facetsQuery = factual.requestUrl('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
+factual.get('/multi', {queries:{
+  read: readQuery,
+  facets: facetsQuery
+}}, function (error, res) {
+  console.log('read:', res.read.response);
+  console.log('facets:', res.facets.response);
+});
+`````
+Note that sub-responses in multi's response object might be factual api's error responses.
 
 
-## Debug
-Set debug mode to show debug information
+## Error handling & Debug
+The error object is the first argument of the callback functions, it will be null if no errors. Normally it will just give you the error message, to see more useful information about the error, you can set the driver into debug mode:
 `````javascript
 // start debug mode
 factual.startDebug();
+// run codes
 // stop debug mode 
 factual.stopDebug();
 `````
+In debug mode, it will output useful information about request, response and error to stderr.

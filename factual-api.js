@@ -20,6 +20,10 @@ Factual.prototype = {
 
   post: function () {
     return this.requester.post.apply(this.requester, arguments);
+  },
+
+  requestUrl: function () {
+    return this.requester.url.apply(this.requester, arguments);
   }
 
 };
