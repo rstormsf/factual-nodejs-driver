@@ -8,6 +8,7 @@ This is a nodejs client package for [Factual's public API](http://developer.fact
 *   [Crosswalk](http://developer.factual.com/display/docs/Places+API+-+Crosswalk): Get third-party IDs
 *   [Resolve](http://developer.factual.com/display/docs/Places+API+-+Resolve): Enrich your data and match it against Factual's
 *   [Multi](http://developer.factual.com/display/docs/Core+API+-+Multi): Enable making multiple API GET requests on the same connection
+*   [Monetize](http://developer.factual.com/display/docs/Places+API+-+Monetize): Enable finding deals for places in Factual's Global Places database 
 
 # Install
 
@@ -110,6 +111,13 @@ factual.get('/multi', {queries:{
 `````
 Note that sub-responses in multi's response object might be factual api's error responses.
 
+## Monetize
+Use fulltext search query to get deals about fried chicken in los angeles:
+`````javascript
+factual.get('/places/monetize', {q:"Fried Chicken,Los Angeles"}, function (error, res) {
+  console.log(res.data);
+});
+`````
 
 ## Error handling & Debug
 The error object is the first argument of the callback functions, it will be null if no errors. Normally it will just give you the error message, to see more useful information about the error, you can set the driver into debug mode:
