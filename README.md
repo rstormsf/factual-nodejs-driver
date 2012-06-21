@@ -1,14 +1,6 @@
 # About
 
-This is a nodejs client package for [Factual's public API](http://developer.factual.com/display/docs/Factual+Developer+APIs+Version+3).
-
-*   [Read](http://developer.factual.com/display/docs/Core+API+-+Read): Search the data
-*   [Schema](http://developer.factual.com/display/docs/Core+API+-+Schema): Get table metadata
-*   [Facets](http://developer.factual.com/display/docs/Core+API+-+Facets): Count group of data
-*   [Crosswalk](http://developer.factual.com/display/docs/Places+API+-+Crosswalk): Get third-party IDs
-*   [Resolve](http://developer.factual.com/display/docs/Places+API+-+Resolve): Enrich your data and match it against Factual's
-*   [Multi](http://developer.factual.com/display/docs/Core+API+-+Multi): Enable making multiple API GET requests on the same connection
-*   [Monetize](http://developer.factual.com/display/docs/Places+API+-+Monetize): Enable finding deals for places in Factual's Global Places database
+This is the Factual-supported Node.js driver for [Factual's public API](http://developer.factual.com).
 
 # Install
 
@@ -18,13 +10,13 @@ $ npm install factual-api
 
 # Get Started
 
-It is required to have your own api key/secret, you can get them from [factual](https://www.factual.com/api-keys/request)
-
-Then include this driver in your projects:
+Include this driver in your projects:
 ```javascript
 var Factual = require('factual-api');
 var factual = new Factual('YOUR_KEY', 'YOUR_SECRET');
 ```
+
+If you don't have a Factual API account yet, [it's free and easy to get one](https://www.factual.com/api-keys/request).
 
 ## Read
 ```javascript
