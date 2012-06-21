@@ -128,3 +128,14 @@ factual.stopDebug();
 ```
 
 Debug Mode will output useful information about what's going on, including  the request sent to Factual and the response from Factual, outputting to stdout and stderr.
+
+# Where to Get Help
+
+If you think you've identified a specific bug in this driver, please file an issue in the github repo. Please be as specific as you can, including:
+
+  * What you did to surface the bug
+  * What you expected to happen
+  * What actually happened
+  * Detailed stack trace and/or line numbers
+
+If you are having any other kind of issue, such as unexpected data or strange behaviour from Factual's API (or you're just not sure WHAT'S going on), please contact us through [GetSatisfaction](http://support.factual.com/factual).
