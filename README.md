@@ -8,26 +8,26 @@ This is a nodejs client package for [Factual's public API](http://developer.fact
 *   [Crosswalk](http://developer.factual.com/display/docs/Places+API+-+Crosswalk): Get third-party IDs
 *   [Resolve](http://developer.factual.com/display/docs/Places+API+-+Resolve): Enrich your data and match it against Factual's
 *   [Multi](http://developer.factual.com/display/docs/Core+API+-+Multi): Enable making multiple API GET requests on the same connection
-*   [Monetize](http://developer.factual.com/display/docs/Places+API+-+Monetize): Enable finding deals for places in Factual's Global Places database 
+*   [Monetize](http://developer.factual.com/display/docs/Places+API+-+Monetize): Enable finding deals for places in Factual's Global Places database
 
 # Install
 
-`````bash
+```bash
 $ npm install factual-api
-`````
+```
 
-# Get Start
+# Get Started
 
 It is required to have your own api key/secret, you can get them from [factual](https://www.factual.com/api-keys/request)
 
 Then include this driver in your projects:
-`````javascript
+```javascript
 var Factual = require('factual-api');
 var factual = new Factual('YOUR_KEY', 'YOUR_SECRET');
-`````
+```
 
 ## Read
-`````javascript
+```javascript
 // Fulltext search doc:
 // http://developer.factual.com/display/docs/Core+API+-+Search+Filters
 factual.get('/t/places',{q:"starbucks", "include_count":"true"}, function (error, res) {
@@ -49,56 +49,56 @@ factual.get('/t/places', {q:"starbucks", filters:{"$or":[{"region":{"$eq":"CA"}}
 factual.get('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}', function (error, res) {
   console.log(res.data);
 });
-`````
+```
 
 ## Schema
 For schema, you only need to specify the table:
-`````javascript
+```javascript
 factual.get('/t/places/schema', function (error, res) {
   console.log(res.view);
 });
-`````
+```
 
 ## Facets
-`````javascript
-// show top 5 cities that have more than 20 starbucks in california
+```javascript
+// show top 5 cities that have more than 20 Starbucks in California
 factual.get('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5}, function (error, res) {
   console.log(res.data);
 });
-`````
+```
 
 ## Crosswalk
-Query with factual id, and only show entites from yelp and foursquare:
-`````javascript
+Query with factual id, and only show entites from Yelp and Foursquare:
+```javascript
 factual.get('/places/crosswalk', {"factual_id":"57ddbca5-a669-4fcf-968f-a1c8210a479a", only:"yelp,foursquare"}, function (error, res) {
   console.log(res.data);
 });
-`````
+```
 
-Or query with an entity from foursquare:
-`````javascript
+Or query with an entity from Foursquare:
+```javascript
 factual.get('/places/crosswalk', {namespace:"foursquare", "namespace_id":"4ae4df6df964a520019f21e3"}, function (error, res) {
   console.log(res.data);
 });
-`````
+```
 
 ## Resolve
 Resolve the entity from name and address:
-`````javascript
+```javascript
 factual.get('/places/resolve', {values:{"name":"huckleberry","address":"1014 Wilshire Blvd"}}, function (error, res) {
   console.log(res.data);
 });
-`````
+```
 Resolve from name and location
-`````javascript
+```javascript
 factual.get('/places/resolve', {values:{"name":"huckleberry","latitude":34.023827,"longitude":-118.49251}}, function (error, res) {
   console.log(res.data);
 });
-`````
+```
 
 ## Multi
 Query read and facets in one request:
-`````javascript
+```javascript
 var readQuery = factual.requestUrl('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
 var facetsQuery = factual.requestUrl('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
 factual.get('/multi', {queries:{
@@ -108,24 +108,31 @@ factual.get('/multi', {queries:{
   console.log('read:', res.read.response);
   console.log('facets:', res.facets.response);
 });
-`````
+```
 Note that sub-responses in multi's response object might be factual api's error responses.
 
 ## Monetize
-Use fulltext search query to get deals about fried chicken in los angeles:
-`````javascript
+Use fulltext search query to get deals about fried chicken in Los Angeles:
+```javascript
 factual.get('/places/monetize', {q:"Fried Chicken,Los Angeles"}, function (error, res) {
   console.log(res.data);
 });
-`````
+```
 
-## Error handling & Debug
-The error object is the first argument of the callback functions, it will be null if no errors. Normally it will just give you the error message, to see more useful information about the error, you can set the driver into debug mode:
-`````javascript
+## Error Handling
+The error object is the first argument of the callback functions, it will be null if no errors.
+
+## Debug Mode
+To see detailed debug information at runtime, you can turn on Debug Mode:
+
+```javascript
 // start debug mode
 factual.startDebug();
-// run codes
-// stop debug mode 
+
+// run your querie(s)
+
+// stop debug mode
 factual.stopDebug();
-`````
-In debug mode, it will output useful information about request, response and error to stderr.
+```
+
+Debug Mode will output useful information about what's going on, including  the request sent to Factual and the response from Factual, outputting to stdout and stderr.
