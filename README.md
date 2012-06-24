@@ -38,7 +38,7 @@ factual.get('/t/places', {q:"starbucks", filters:{"$or":[{"region":{"$eq":"CA"}}
 
 // Geo filter doc:
 // http://developer.factual.com/display/docs/Core+API+-+Geo+Filters
-factual.get('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}', function (error, res) {
+factual.get('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}, function (error, res) {
   console.log(res.data);
 });
 ```
