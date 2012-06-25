@@ -111,6 +111,23 @@ factual.get('/places/monetize', {q:"Fried Chicken,Los Angeles"}, function (error
 });
 ```
 
+## Reverse Geocoder
+Get the nearest valid address from a latitude and longitude
+```javascript
+factual.get('/places/geocode', {geo:{"$point":[34.06021,-118.41828]}}, function (error, res) {
+  console.log(res.data);
+});
+```
+
+## Geopulse
+get geographic attributes from  a latitude and longitude
+```javascript
+factual.get('/places/geopulse', {geo:{"$point":[34.06021,-118.41828]}}, function (error, res) {
+  console.log(res.data);
+});
+```
+
+
 ## Error Handling
 The error object is the first argument of the callback functions, it will be null if no errors.
 
