@@ -120,7 +120,7 @@ factual.get('/places/geocode', {geo:{"$point":[34.06021,-118.41828]}}, function 
 ```
 
 ## Geopulse
-get geographic attributes from  a latitude and longitude
+Get geographic attributes from a latitude and longitude
 ```javascript
 factual.get('/places/geopulse', {geo:{"$point":[34.06021,-118.41828]}}, function (error, res) {
   console.log(res.data);
