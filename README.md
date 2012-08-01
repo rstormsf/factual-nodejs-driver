@@ -127,6 +127,77 @@ factual.get('/places/geopulse', {geo:{"$point":[34.06021,-118.41828]}}, function
 });
 ```
 
+## Submit
+```javascript
+factual.post('/t/global/submit', {
+  values: {
+    name: "Factual North",
+    address: "1 North Pole",
+    latitude: 90,
+    longitude: 0
+  },
+  user: "a_user_id"
+}, function (error, res) {
+  console.log(res);
+});
+```
+
+## Diffs
+```javascript
+// callback to handle all the diffs
+factual.get('/t/global/diffs?start='+start+'&end='+now, function (err, res) {
+  console.log(res);
+});
+
+
+// callback to handle each diff
+factual.get('/t/global/diffs?start='+start+'&end='+now, {
+  customCallback: function (req) {
+
+    var cb = function (data) {
+      var idx;
+      while (-1 != (idx = data.indexOf("\n"))) {
+        var row = data.slice(0, idx);
+        data = data.slice(idx + 1);
+        if (row.length > 2) console.log(JSON.parse(row));
+      }
+    };
+
+    req.on('response', function (response) {
+      var data = "";
+      response.setEncoding('utf8');
+      response.on('data', function (chunk) {
+        data+=chunk.toString();
+        cb(data);
+      });
+      response.on('end', function () {
+        if (data) cb(data);
+      });
+      response.on('close', function () {
+        if (data) cb(data);
+      });
+      response.on('error', function (error) {
+        console.log(error);
+      });
+    });
+
+    req.end();
+  }
+});
+```
+
+## Flag
+```javascript
+factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+  problem: "duplicate",
+  user: "a_user_id",
+  comment: "I think this is identical to 9d676355-6c74-4cf6-8c4a-03fdaaa2d66a"
+}, function (error, res) {
+  if (!error) console.log("success");
+});
+```
+
+
 
 ## Error Handling
 The error object is the first argument of the callback functions, it will be null if no errors.
