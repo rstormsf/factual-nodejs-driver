@@ -128,6 +128,10 @@ factual.get('/places/geopulse', {geo:{"$point":[34.06021,-118.41828]}}, function
 ```
 
 ## Submit
+
+NOTICE: _Server support for this feature is still under development._ You are getting a preview of how this driver will support the feature. If you try using this feature now, you may not get a successful response. We will remove this notice once the feature is fully supported.
+---
+
 ```javascript
 factual.post('/t/global/submit', {
   values: JSON.stringify({
@@ -143,6 +147,10 @@ factual.post('/t/global/submit', {
 ```
 
 ## Diffs
+
+NOTICE: _Server support for this feature is still under development._ You are getting a preview of how this driver will support the feature. If you try using this feature now, you may not get a successful response. We will remove this notice once the feature is fully supported.
+---
+
 ```javascript
 // callback to handle all the diffs
 var now = new Date().getTime();
@@ -190,6 +198,10 @@ factual.get('/t/global/diffs?start='+start+'&end='+now, {
 ```
 
 ## Flag
+
+NOTICE: _Server support for this feature is still under development._ You are getting a preview of how this driver will support the feature. If you try using this feature now, you may not get a successful response. We will remove this notice once the feature is fully supported.
+---
+
 ```javascript
 factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
   problem: "duplicate",
