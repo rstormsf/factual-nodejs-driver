@@ -130,12 +130,12 @@ factual.get('/places/geopulse', {geo:{"$point":[34.06021,-118.41828]}}, function
 ## Submit
 ```javascript
 factual.post('/t/global/submit', {
-  values: {
+  values: JSON.stringify({
     name: "Factual North",
     address: "1 North Pole",
     latitude: 90,
     longitude: 0
-  },
+  }),
   user: "a_user_id"
 }, function (error, res) {
   console.log(res);
@@ -145,6 +145,8 @@ factual.post('/t/global/submit', {
 ## Diffs
 ```javascript
 // callback to handle all the diffs
+var now = new Date().getTime();
+var start = now - 7*24*3600*1000; // last week
 factual.get('/t/global/diffs?start='+start+'&end='+now, function (err, res) {
   console.log(res);
 });
@@ -154,27 +156,28 @@ factual.get('/t/global/diffs?start='+start+'&end='+now, function (err, res) {
 factual.get('/t/global/diffs?start='+start+'&end='+now, {
   customCallback: function (req) {
 
-    var cb = function (data) {
-      var idx;
-      while (-1 != (idx = data.indexOf("\n"))) {
-        var row = data.slice(0, idx);
-        data = data.slice(idx + 1);
-        if (row.length > 2) console.log(JSON.parse(row));
-      }
-    };
-
     req.on('response', function (response) {
       var data = "";
+
+      var cb = function () {
+        var idx;
+        while (-1 != (idx = data.indexOf("\n"))) {
+          var row = data.slice(0, idx);
+          data = data.slice(idx + 1);
+          if (row.length > 2) console.log(JSON.parse(row));
+        }
+      };
+
       response.setEncoding('utf8');
       response.on('data', function (chunk) {
-        data+=chunk.toString();
-        cb(data);
+        data += chunk.toString();
+        cb();
       });
       response.on('end', function () {
-        if (data) cb(data);
+        if (data) cb();
       });
       response.on('close', function () {
-        if (data) cb(data);
+        if (data) cb();
       });
       response.on('error', function (error) {
         console.log(error);

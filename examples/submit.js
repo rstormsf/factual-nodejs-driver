@@ -7,12 +7,12 @@ var factual = new Factual(auth.key, auth.secret);
 factual.startDebug();
 
 factual.post('/t/global/submit', {
-  values: {
+  values: JSON.stringify({
     name: "Factual North",
     address: "1 North Pole",
     latitude: 90,
     longitude: 0
-  },
+  }),
   user: "a_user_id"
 }, function (error, res) {
   console.log(res);
