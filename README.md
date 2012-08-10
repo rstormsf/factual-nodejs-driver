@@ -127,6 +127,14 @@ factual.get('/places/geopulse', {geo:{"$point":[34.06021,-118.41828]}}, function
 });
 ```
 
+## World Geographies
+World Geographies contains administrative geographies (states, counties, countries), natural geographies (rivers, oceans, continents), and assorted geographic miscallaney.  This resource is intended to complement the Global Places and add utility to any geo-related content.
+```javascript
+factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":"08ca0f62-8f76-11e1-848f-cfd5bf3ef515"}}', function (error, res) {
+  console.log(res.data);
+});
+```
+
 ## Submit
 
 NOTICE: _Server support for this feature is still under development._ You are getting a preview of how this driver will support the feature. If you try using this feature now, you may not get a successful response. We will remove this notice once the feature is fully supported.

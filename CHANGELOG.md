@@ -1,3 +1,7 @@
+# 1.0.2
+# add doc for match and World Geographies
+
+
 # 1.0.1
 * add support for flag, submit, diffs
 * add support for using custom callback
