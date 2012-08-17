@@ -1,3 +1,7 @@
+# 1.0.3
+# add support for changing baseURI globally
+# fix driver version
+
 # 1.0.2
 # add doc for match and World Geographies
 

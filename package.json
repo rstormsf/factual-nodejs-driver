@@ -5,7 +5,7 @@
   "homepage": "https://github.com/Factual/factual-nodejs-driver",
   "bugs": "http://support.factual.com/factual",
   "author": "Leon Chen",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "licenses": [ { "type": "MIT" }],
   "directories": {
     "lib": "./lib",

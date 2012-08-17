@@ -238,6 +238,19 @@ factual.startDebug();
 factual.stopDebug();
 ```
 
+## Change base url
+If you want to send the requests to other hosts/port instead of "http://api.v3.factual.com:80", you can set it manually:
+```javascript
+// 1.set globally
+factual.setBaseURI('http://dev.api.v3.factual.com');
+// back to default
+factual.setBaseURI();
+// 2. set for each request
+factual.get('http://dev.api.v3.factual.com/t/places',{q:"starbucks", "include_count":"true"}, function (error, res) {
+});
+```
+
+
 Debug Mode will output useful information about what's going on, including  the request sent to Factual and the response from Factual, outputting to stdout and stderr.
 
 # Where to Get Help

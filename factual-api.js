@@ -14,6 +14,10 @@ Factual.prototype = {
     this.requester.stopDebug();
   },
 
+  setBaseURI: function () {
+    this.requester.setBaseURI(arguments[0]);
+  },
+
   get: function () {
     return this.requester.get.apply(this.requester, arguments);
   },
