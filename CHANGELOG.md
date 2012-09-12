@@ -1,9 +1,13 @@
+# 1.0.4
+* use factual error as the error object if possible
+
+
 # 1.0.3
-# add support for changing baseURI globally
-# fix driver version
+* add support for changing baseURI globally
+* fix driver version
 
 # 1.0.2
-# add doc for match and World Geographies
+* add doc for match and World Geographies
 
 
 # 1.0.1
