@@ -1,3 +1,9 @@
+# 1.0.5
+* adding response object to the callbacks
+```
+factual.get(query, function (err, data, res) { });  
+```
+
 # 1.0.4
 * use factual error as the error object if possible
 
