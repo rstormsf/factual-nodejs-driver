@@ -137,7 +137,7 @@ factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":
 
 ## Submit
 
-NOTICE: _Server support for this feature is still under development._ You are getting a preview of how this driver will support the feature. If you try using this feature now, you may not get a successful response. We will remove this notice once the feature is fully supported.
+NOTICE: At the current time, this API call is ONLY compatible with places-v3. Please see the [the migration page](http://developer.factual.com/display/docs/Places+API+-+v3+Migration) for more details.
 ---
 
 ```javascript
@@ -207,8 +207,7 @@ factual.get('/t/global/diffs?start='+start+'&end='+now, {
 
 ## Flag
 
-NOTICE: _Server support for this feature is still under development._ You are getting a preview of how this driver will support the feature. If you try using this feature now, you may not get a successful response. We will remove this notice once the feature is fully supported.
----
+NOTICE: At the current time, this API call is ONLY compatible with places-v3. Please see the [the migration page](http://developer.factual.com/display/docs/Places+API+-+v3+Migration) for more details.
 
 ```javascript
 factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
