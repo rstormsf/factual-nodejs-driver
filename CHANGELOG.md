@@ -1,7 +1,11 @@
+# 1.0.6
+* adding support for custom timeout
+* minor optimizations
+
 # 1.0.5
 * adding response object to the callbacks
 ```
-factual.get(query, function (err, data, res) { });  
+factual.get(url, function (err, data, res) { });  
 ```
 
 # 1.0.4

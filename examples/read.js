@@ -27,3 +27,11 @@ factual.get('/t/places?q=starbucks&filters={"$or":[{"region":{"$eq":"CA"}},{"loc
 factual.get('/t/places?q=starbucks&geo={"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}', function (error, res) {
   console.log(res.data);
 });
+
+// Custom timeout:
+factual.setRequestTimeout(1);
+factual.get('/t/places?q=starbucks&include_count=true', function (error, res) {
+  if (error) return console.log("Request failed:", error.message);
+  console.log("show "+ res.included_rows +"/"+ res.total_row_count +" rows:", res.data);
+});
+

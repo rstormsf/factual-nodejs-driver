@@ -226,7 +226,6 @@ The error object is the first argument of the callback functions, it will be nul
 
 ## Debug Mode
 To see detailed debug information at runtime, you can turn on Debug Mode:
-
 ```javascript
 // start debug mode
 factual.startDebug();
@@ -236,6 +235,8 @@ factual.startDebug();
 // stop debug mode
 factual.stopDebug();
 ```
+Debug Mode will output useful information about what's going on, including  the request sent to Factual and the response from Factual, outputting to stdout and stderr.
+
 
 ## Change base url
 If you want to send the requests to other hosts/port instead of "http://api.v3.factual.com:80", you can set it manually:
@@ -249,8 +250,16 @@ factual.get('http://dev.api.v3.factual.com/t/places',{q:"starbucks", "include_co
 });
 ```
 
+## Use custom timeout
+You can set the request timeout(in milliseconds) now:
+```javascript
+// set the timeout as 1 second
+factual.setRequestTimeout(1000);
+// clear the custom timeout setting
+factual.setRequestTimeout();
+```
+You will get [Error: socket hang up] for custom timeout errors.
 
-Debug Mode will output useful information about what's going on, including  the request sent to Factual and the response from Factual, outputting to stdout and stderr.
 
 # Where to Get Help
 
