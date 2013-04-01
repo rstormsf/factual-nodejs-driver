@@ -1,9 +1,10 @@
 # 1.0.6
-* adding support for custom timeout
+* add support for custom timeout
+* add examples/docs for Get A Row and Clear api 
 * minor optimizations
 
 # 1.0.5
-* adding response object to the callbacks
+* add response object to the callbacks
 ```
 factual.get(url, function (err, data, res) { });  
 ```

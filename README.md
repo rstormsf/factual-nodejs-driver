@@ -41,6 +41,12 @@ factual.get('/t/places', {q:"starbucks", filters:{"$or":[{"region":{"$eq":"CA"}}
 factual.get('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}, function (error, res) {
   console.log(res.data);
 });
+
+// Get a row by factual id:
+factual.get('/t/places/03c26917-5d66-4de9-96bc-b13066173c65', function (error, res) {
+  console.log(res.data[0]);
+});
+
 ```
 
 ## Schema
@@ -219,7 +225,16 @@ factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
 });
 ```
 
-
+## Clear
+Clear existing attributes in an entity
+```javascript
+factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/clear', {
+  fields: "address_extended,latitude,longitude",
+  user: "a_user_id"
+}, function (error, res) {
+  if (!error) console.log("success");
+});
+```
 
 ## Error Handling
 The error object is the first argument of the callback functions, it will be null if no errors.

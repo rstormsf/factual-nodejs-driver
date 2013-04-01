@@ -28,6 +28,11 @@ factual.get('/t/places?q=starbucks&geo={"$circle":{"$center":[34.041195,-118.331
   console.log(res.data);
 });
 
+// Get A Row
+factual.get('/t/places/03c26917-5d66-4de9-96bc-b13066173c65', function (error, res) {
+  console.log(res.data[0]);
+});
+
 // Custom timeout:
 factual.setRequestTimeout(1);
 factual.get('/t/places?q=starbucks&include_count=true', function (error, res) {
