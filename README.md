@@ -28,6 +28,10 @@ factual.get('/t/places',{q:"starbucks", "include_count":"true"}, function (error
 
 // Row Filters doc:
 // http://developer.factual.com/display/docs/Core+API+-+Row+Filters
+factual.get('/t/places', {filters:{category_ids:{"$includes":10}}}, function (error, res) {
+  console.log(res.data);
+});
+
 factual.get('/t/places', {q:"starbucks", filters:{"region":"CA"}}, function (error, res) {
   console.log(res.data);
 });
