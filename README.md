@@ -19,15 +19,14 @@ var factual = new Factual('YOUR_KEY', 'YOUR_SECRET');
 If you don't have a Factual API account yet, [it's free and easy to get one](https://www.factual.com/api-keys/request).
 
 ## Read
+Doc: http://developer.factual.com/api-docs/#Read
 ```javascript
-// Fulltext search doc:
-// http://developer.factual.com/display/docs/Core+API+-+Search+Filters
+// Full-text search:
 factual.get('/t/places',{q:"starbucks", "include_count":"true"}, function (error, res) {
   console.log("show "+ res.included_rows +"/"+ res.total_row_count +" rows:", res.data);
 });
 
-// Row Filters doc:
-// http://developer.factual.com/display/docs/Core+API+-+Row+Filters
+// Row filters:
 factual.get('/t/places', {filters:{category_ids:{"$includes":10}}}, function (error, res) {
   console.log(res.data);
 });
@@ -40,8 +39,7 @@ factual.get('/t/places', {q:"starbucks", filters:{"$or":[{"region":{"$eq":"CA"}}
   console.log(res.data);
 });
 
-// Geo filter doc:
-// http://developer.factual.com/display/docs/Core+API+-+Geo+Filters
+// Geo filter:
 factual.get('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}, function (error, res) {
   console.log(res.data);
 });
@@ -54,7 +52,7 @@ factual.get('/t/places/03c26917-5d66-4de9-96bc-b13066173c65', function (error, r
 ```
 
 ## Schema
-For schema, you only need to specify the table:
+Doc: http://developer.factual.com/api-docs/#Schema
 ```javascript
 factual.get('/t/places/schema', function (error, res) {
   console.log(res.view);
@@ -62,6 +60,7 @@ factual.get('/t/places/schema', function (error, res) {
 ```
 
 ## Facets
+Doc: http://developer.factual.com/api-docs/#Facets
 ```javascript
 // show top 5 cities that have more than 20 Starbucks in California
 factual.get('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5}, function (error, res) {
@@ -69,7 +68,24 @@ factual.get('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:
 });
 ```
 
+## Resolve
+Doc: http://developer.factual.com/api-docs/#Resolve
+Resolve the entity from name and address:
+```javascript
+factual.get('/places/resolve', {values:{"name":"huckleberry","address":"1014 Wilshire Blvd"}}, function (error, res) {
+  console.log(res.data);
+});
+```
+
+Resolve from name and location
+```javascript
+factual.get('/places/resolve', {values:{"name":"huckleberry","latitude":34.023827,"longitude":-118.49251}}, function (error, res) {
+  console.log(res.data);
+});
+```
+
 ## Crosswalk
+Doc: http://developer.factual.com/places-crosswalk/
 Query with factual id, and only show entites from Yelp:
 ```javascript
 factual.get('/t/crosswalk?filters={"factual_id":"57ddbca5-a669-4fcf-968f-a1c8210a479a","namespace":"yelp"}', function (error, res) {
@@ -84,21 +100,8 @@ factual.get('/t/crosswalk?filters={"namespace":"foursquare", "namespace_id":"4ae
 });
 ```
 
-## Resolve
-Resolve the entity from name and address:
-```javascript
-factual.get('/places/resolve', {values:{"name":"huckleberry","address":"1014 Wilshire Blvd"}}, function (error, res) {
-  console.log(res.data);
-});
-```
-Resolve from name and location
-```javascript
-factual.get('/places/resolve', {values:{"name":"huckleberry","latitude":34.023827,"longitude":-118.49251}}, function (error, res) {
-  console.log(res.data);
-});
-```
-
 ## Multi
+Doc: http://developer.factual.com/api-docs/#Multi
 Query read and facets in one request:
 ```javascript
 var readQuery = factual.requestUrl('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
@@ -122,6 +125,7 @@ factual.get('/places/monetize', {q:"Fried Chicken,Los Angeles"}, function (error
 ```
 
 ## Reverse Geocoder
+Doc: http://developer.factual.com/api-docs/#Geocode
 Get the nearest valid address from a latitude and longitude
 ```javascript
 factual.get('/places/geocode', {geo:{"$point":[34.06021,-118.41828]}}, function (error, res) {
@@ -130,6 +134,7 @@ factual.get('/places/geocode', {geo:{"$point":[34.06021,-118.41828]}}, function 
 ```
 
 ## Geopulse
+Doc: http://developer.factual.com/api-docs/#Geopulse
 Get geographic attributes from a latitude and longitude
 ```javascript
 factual.get('/places/geopulse', {geo:{"$point":[34.06021,-118.41828]}}, function (error, res) {
@@ -146,7 +151,7 @@ factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":
 ```
 
 ## Submit
-
+Doc: http://developer.factual.com/api-docs/#Submit
 NOTICE: At the current time, this API call is ONLY compatible with places-v3. Please see the [the migration page](http://developer.factual.com/display/docs/Places+API+-+v3+Migration) for more details.
 ---
 
@@ -165,7 +170,7 @@ factual.post('/t/global/submit', {
 ```
 
 ## Diffs
-
+Doc: http://developer.factual.com/api-docs/#Diffs
 NOTICE: _Server support for this feature is still under development._ You are getting a preview of how this driver will support the feature. If you try using this feature now, you may not get a successful response. We will remove this notice once the feature is fully supported.
 ---
 
@@ -216,7 +221,7 @@ factual.get('/t/global/diffs?start='+start+'&end='+now, {
 ```
 
 ## Flag
-
+Doc: http://developer.factual.com/api-docs/#Flag
 NOTICE: At the current time, this API call is ONLY compatible with places-v3. Please see the [the migration page](http://developer.factual.com/display/docs/Places+API+-+v3+Migration) for more details.
 
 ```javascript
@@ -230,6 +235,7 @@ factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
 ```
 
 ## Clear
+Doc: http://developer.factual.com/api-docs/#Clear
 Clear existing attributes in an entity
 ```javascript
 factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/clear', {
