@@ -1,18 +1,18 @@
 // resolve api doc:
-// http://developer.factual.com/display/docs/Places+API+-+Resolve
+// http://developer.factual.com/api-docs/#Resolve
 
 var auth = require('./auth');
 var Factual = require('../factual-api');
 var factual = new Factual(auth.key, auth.secret);
 factual.startDebug();
 
-// resovle from name and address
-factual.get('/places/resolve?values={"name":"huckleberry","address":"1014 Wilshire Blvd"}', function (error, res) {
+// resovle from name and address info
+factual.get('/t/places/resolve?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
   console.log(res.data);
 });
 
 
-// resolve from name and location
-factual.get('/places/resolve?values={"name":"huckleberry","latitude":34.023827,"longitude":-118.49251}', function (error, res) {
+// resolve from name and geo location
+factual.get('/t/places/resolve?values={"name":"McDonalds","latitude":34.05671,"longitude":-118.42586}', function (error, res) {
   console.log(res.data);
 });

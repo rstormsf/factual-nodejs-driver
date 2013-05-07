@@ -70,16 +70,21 @@ factual.get('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:
 
 ## Resolve
 Doc: http://developer.factual.com/api-docs/#Resolve
-Resolve the entity from name and address:
-```javascript
-factual.get('/places/resolve', {values:{"name":"huckleberry","address":"1014 Wilshire Blvd"}}, function (error, res) {
+// resovle from name and address info
+factual.get('/t/places/resolve?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
   console.log(res.data);
 });
-```
 
-Resolve from name and location
+// resolve from name and geo location
+factual.get('/t/places/resolve?values={"name":"McDonalds","latitude":34.05671,"longitude":-118.42586}', function (error, res) {
+  console.log(res.data);
+});
+
+## Match
+Doc: http://developer.factual.com/api-docs/#Match
+Match the data with Factual's, but only return the matched Factual ID:
 ```javascript
-factual.get('/places/resolve', {values:{"name":"huckleberry","latitude":34.023827,"longitude":-118.49251}}, function (error, res) {
+factual.get('/t/places/match?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
   console.log(res.data);
 });
 ```
