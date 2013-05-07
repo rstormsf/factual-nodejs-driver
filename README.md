@@ -70,6 +70,7 @@ factual.get('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:
 
 ## Resolve
 Doc: http://developer.factual.com/api-docs/#Resolve
+```javascript
 // resovle from name and address info
 factual.get('/t/places/resolve?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
   console.log(res.data);
@@ -79,6 +80,7 @@ factual.get('/t/places/resolve?values={"name":"McDonalds","address":"10451 Santa
 factual.get('/t/places/resolve?values={"name":"McDonalds","latitude":34.05671,"longitude":-118.42586}', function (error, res) {
   console.log(res.data);
 });
+```
 
 ## Match
 Doc: http://developer.factual.com/api-docs/#Match
