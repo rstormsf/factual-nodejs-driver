@@ -123,14 +123,6 @@ factual.get('/multi', {queries:{
 ```
 Note that sub-responses in multi's response object might be factual api's error responses.
 
-## Monetize
-Use fulltext search query to get deals about fried chicken in Los Angeles:
-```javascript
-factual.get('/places/monetize', {q:"Fried Chicken,Los Angeles"}, function (error, res) {
-  console.log(res.data);
-});
-```
-
 ## Reverse Geocoder
 Doc: http://developer.factual.com/api-docs/#Geocode
 Get the nearest valid address from a latitude and longitude
