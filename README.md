@@ -245,6 +245,20 @@ factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/clear', {
 });
 ```
 
+## Boost
+Doc: http://developer.factual.com/api-docs/#Boost
+```javascript
+factual.post('/t/places-us/boost', {
+  factual_id: '03c26917-5d66-4de9-96bc-b13066173c65',
+  q: "local business data",
+  user: "a_user_id"
+}, function (error, res) {
+  if (!error) console.log("success");
+});
+```
+
+
+
 ## Error Handling
 The error object is the first argument of the callback functions, it will be null if no errors.
 

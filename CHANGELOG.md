@@ -1,3 +1,6 @@
+# 1.0.7
+* add support for boost api
+
 # 1.0.6
 * add support for custom timeout
 * add examples/docs for Get A Row and Clear api 
