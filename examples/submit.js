@@ -6,14 +6,23 @@ var Factual = require('../factual-api');
 var factual = new Factual(auth.key, auth.secret);
 factual.startDebug();
 
-factual.post('/t/global/submit', {
+factual.post('/t/us-sandbox/submit', {
   values: JSON.stringify({
-    name: "Factual North",
-    address: "1 North Pole",
-    latitude: 90,
-    longitude: 0
+    name: "Factual",
+    address: "1999 Avenue of the Stars",
+    address_extended: "35th floor",
+    locality: "los angeles",
+    region: "ca",
+    postcode: "90067",
+    country: "us",
+    tel: "(310) 286-9400",
+    website: "http://www.factual.com",
+    latitude: 34.058743,
+    longitude:-118.41694,
+    category_ids: [209]
   }),
-  user: "a_user_id"
+  user: "a_user_id",
+  reference: "http://www.factual.com"
 }, function (error, res) {
   console.log(res);
 });
