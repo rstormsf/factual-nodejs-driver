@@ -132,15 +132,6 @@ factual.get('/places/geocode', {geo:{"$point":[34.06021,-118.41828]}}, function 
 });
 ```
 
-## Geopulse
-Doc: http://developer.factual.com/api-docs/#Geopulse
-Get geographic attributes from a latitude and longitude
-```javascript
-factual.get('/places/geopulse', {geo:{"$point":[34.06021,-118.41828]}}, function (error, res) {
-  console.log(res.data);
-});
-```
-
 ## World Geographies
 World Geographies contains administrative geographies (states, counties, countries), natural geographies (rivers, oceans, continents), and assorted geographic miscallaney.  This resource is intended to complement the Global Places and add utility to any geo-related content.
 ```javascript
@@ -151,11 +142,10 @@ factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":
 
 ## Submit
 Doc: http://developer.factual.com/api-docs/#Submit
-NOTICE: At the current time, this API call is ONLY compatible with places-v3. Please see the [the migration page](http://developer.factual.com/display/docs/Places+API+-+v3+Migration) for more details.
 ---
 
 ```javascript
-factual.post('/t/global/submit', {
+factual.post('/t/us-sandbox/submit', {
   values: JSON.stringify({
     name: "Factual North",
     address: "1 North Pole",
@@ -177,13 +167,13 @@ NOTICE: _Server support for this feature is still under development._ You are ge
 // callback to handle all the diffs
 var now = new Date().getTime();
 var start = now - 7*24*3600*1000; // last week
-factual.get('/t/global/diffs?start='+start+'&end='+now, function (err, res) {
+factual.get('/t/places-us/diffs?start='+start+'&end='+now, function (err, res) {
   console.log(res);
 });
 
 
 // callback to handle each diff
-factual.get('/t/global/diffs?start='+start+'&end='+now, {
+factual.get('/t/places-us/diffs?start='+start+'&end='+now, {
   customCallback: function (req) {
 
     req.on('response', function (response) {
@@ -221,10 +211,9 @@ factual.get('/t/global/diffs?start='+start+'&end='+now, {
 
 ## Flag
 Doc: http://developer.factual.com/api-docs/#Flag
-NOTICE: At the current time, this API call is ONLY compatible with places-v3. Please see the [the migration page](http://developer.factual.com/display/docs/Places+API+-+v3+Migration) for more details.
 
 ```javascript
-factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+factual.post('/t/places-us/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
   problem: "duplicate",
   user: "a_user_id",
   comment: "I think this is identical to 9d676355-6c74-4cf6-8c4a-03fdaaa2d66a"
@@ -237,7 +226,7 @@ factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
 Doc: http://developer.factual.com/api-docs/#Clear
 Clear existing attributes in an entity
 ```javascript
-factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/clear', {
+factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/clear', {
   fields: "address_extended,latitude,longitude",
   user: "a_user_id"
 }, function (error, res) {
