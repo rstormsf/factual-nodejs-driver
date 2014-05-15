@@ -6,10 +6,11 @@ var Factual = require('../factual-api');
 var factual = new Factual(auth.key, auth.secret);
 factual.startDebug();
 
-factual.post('/t/global/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+// flag duplicate
+factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "duplicate",
   user: "a_user_id",
-  comment: "I think this is identical to 9d676355-6c74-4cf6-8c4a-03fdaaa2d66a"
+  data: {"factual_ids":["85c89c4c-aa00-4bdb-baf1-a343e13b3cf5"]}
 }, function (error, res) {
   if (!error) console.log("success");
 });
