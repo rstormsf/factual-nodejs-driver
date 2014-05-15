@@ -142,7 +142,6 @@ factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":
 
 ## Submit
 Doc: http://developer.factual.com/api-docs/#Submit
----
 
 ```javascript
 factual.post('/t/us-sandbox/submit', {
@@ -155,57 +154,6 @@ factual.post('/t/us-sandbox/submit', {
   user: "a_user_id"
 }, function (error, res) {
   console.log(res);
-});
-```
-
-## Diffs
-Doc: http://developer.factual.com/api-docs/#Diffs
-NOTICE: _Server support for this feature is still under development._ You are getting a preview of how this driver will support the feature. If you try using this feature now, you may not get a successful response. We will remove this notice once the feature is fully supported.
----
-
-```javascript
-// callback to handle all the diffs
-var now = new Date().getTime();
-var start = now - 7*24*3600*1000; // last week
-factual.get('/t/places-us/diffs?start='+start+'&end='+now, function (err, res) {
-  console.log(res);
-});
-
-
-// callback to handle each diff
-factual.get('/t/places-us/diffs?start='+start+'&end='+now, {
-  customCallback: function (req) {
-
-    req.on('response', function (response) {
-      var data = "";
-
-      var cb = function () {
-        var idx;
-        while (-1 != (idx = data.indexOf("\n"))) {
-          var row = data.slice(0, idx);
-          data = data.slice(idx + 1);
-          if (row.length > 2) console.log(JSON.parse(row));
-        }
-      };
-
-      response.setEncoding('utf8');
-      response.on('data', function (chunk) {
-        data += chunk.toString();
-        cb();
-      });
-      response.on('end', function () {
-        if (data) cb();
-      });
-      response.on('close', function () {
-        if (data) cb();
-      });
-      response.on('error', function (error) {
-        console.log(error);
-      });
-    });
-
-    req.end();
-  }
 });
 ```
 
