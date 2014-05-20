@@ -160,11 +160,34 @@ factual.post('/t/us-sandbox/submit', {
 ## Flag
 Doc: http://developer.factual.com/api-docs/#Flag
 
+Flag a row as being a duplicate of another. The *preferred* entity that should persist is passed as a GET parameter.
 ```javascript
-factual.post('/t/places-us/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
   problem: "duplicate",
+  preferred: "9d676355-6c74-4cf6-8c4a-03fdaaa2d66a",
+  user: "a_user_id"
+}, function (error, res) {
+  if (!error) console.log("success");
+});
+```
+
+Flag a row as being spam.
+```javascript
+factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+  problem: "spam",
   user: "a_user_id",
-  comment: "I think this is identical to 9d676355-6c74-4cf6-8c4a-03fdaaa2d66a"
+  comment: "Known spammer."
+}, function (error, res) {
+  if (!error) console.log("success");
+});
+```
+
+Flag a row as having inaccurate data. This presumes you don't know the more accurate data. If you do, the preferred option is to use the *submit* API call to submit the updated data.
+```javascript
+factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+  problem: "inaccurate",
+  fields: ["latitude","longitude"],
+  user: "a_user_id"
 }, function (error, res) {
   if (!error) console.log("success");
 });
@@ -212,18 +235,6 @@ factual.stopDebug();
 ```
 Debug Mode will output useful information about what's going on, including  the request sent to Factual and the response from Factual, outputting to stdout and stderr.
 
-
-## Change base url
-If you want to send the requests to other hosts/port instead of "http://api.v3.factual.com:80", you can set it manually:
-```javascript
-// 1.set globally
-factual.setBaseURI('http://dev.api.v3.factual.com');
-// back to default
-factual.setBaseURI();
-// 2. set for each request
-factual.get('http://dev.api.v3.factual.com/t/places',{q:"starbucks", "include_count":"true"}, function (error, res) {
-});
-```
 
 ## Use custom timeout
 You can set the request timeout(in milliseconds) now:
