@@ -146,10 +146,16 @@ Doc: http://developer.factual.com/api-docs/#Submit
 ```javascript
 factual.post('/t/us-sandbox/submit', {
   values: JSON.stringify({
-    name: "Factual North",
-    address: "1 North Pole",
-    latitude: 90,
-    longitude: 0
+    name: "Factual",
+    address: "1999 Avenue of the Stars",
+    address_extended: "34th floor",
+    locality: "Los Angeles",
+    region: "CA",
+    postcode: "90067"
+    country: "us"
+    latitude: 34.058743,
+    longitude: -118.41694
+    category_ids: "209"
   }),
   user: "a_user_id"
 }, function (error, res) {
@@ -157,12 +163,25 @@ factual.post('/t/us-sandbox/submit', {
 });
 ```
 
+Edit an existing row:
+```javascript
+factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7fsubmit', {
+  values: JSON.stringify({
+    address_extended: "35th floor"
+  }),
+  user: "a_user_id"
+}, function (error, res) {
+  console.log(res);
+});
+```
+
+
 ## Flag
 Doc: http://developer.factual.com/api-docs/#Flag
 
 Flag a row as being a duplicate of another. The *preferred* entity that should persist is passed as a GET parameter.
 ```javascript
-factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "duplicate",
   preferred: "9d676355-6c74-4cf6-8c4a-03fdaaa2d66a",
   user: "a_user_id"
@@ -173,7 +192,7 @@ factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
 
 Flag a row as being spam.
 ```javascript
-factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "spam",
   user: "a_user_id",
   comment: "Known spammer."
@@ -184,9 +203,9 @@ factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
 
 Flag a row as having inaccurate data. This presumes you don't know the more accurate data. If you do, the preferred option is to use the *submit* API call to submit the updated data.
 ```javascript
-factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
+factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "inaccurate",
-  fields: ["latitude","longitude"],
+  fields: JSON.stringify(["latitude","longitude"]),
   user: "a_user_id"
 }, function (error, res) {
   if (!error) console.log("success");
@@ -197,7 +216,7 @@ factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/flag', {
 Doc: http://developer.factual.com/api-docs/#Clear
 Clear existing attributes in an entity
 ```javascript
-factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/clear', {
+factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/clear', {
   fields: "address_extended,latitude,longitude",
   user: "a_user_id"
 }, function (error, res) {
@@ -208,8 +227,8 @@ factual.post('/t/us-sandbox/21EC2020-3AEA-1069-A2DD-08002B30309D/clear', {
 ## Boost
 Doc: http://developer.factual.com/api-docs/#Boost
 ```javascript
-factual.post('/t/places-us/boost', {
-  factual_id: '03c26917-5d66-4de9-96bc-b13066173c65',
+factual.post('/t/us-sandbox/boost', {
+  factual_id: '4e4a14fe-988c-4f03-a8e7-0efc806d0a7f',
   q: "local business data",
   user: "a_user_id"
 }, function (error, res) {
