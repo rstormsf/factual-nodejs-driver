@@ -22,30 +22,35 @@ If you don't have a Factual API account yet, [it's free and easy to get one](htt
 Doc: http://developer.factual.com/api-docs/#Read
 ```javascript
 // Full-text search:
-factual.get('/t/places',{q:"starbucks", "include_count":"true"}, function (error, res) {
+factual.get('/t/places-us',{q:"starbucks", "include_count":"true"}, function (error, res) {
   console.log("show "+ res.included_rows +"/"+ res.total_row_count +" rows:", res.data);
 });
 
 // Row filters:
-factual.get('/t/places', {filters:{category_ids:{"$includes":10}}}, function (error, res) {
+factual.get('/t/places-us', {filters:{category_ids:{"$includes":10}}}, function (error, res) {
   console.log(res.data);
 });
 
-factual.get('/t/places', {q:"starbucks", filters:{"region":"CA"}}, function (error, res) {
+factual.get('/t/places-us', {q:"starbucks", filters:{"region":"CA"}}, function (error, res) {
   console.log(res.data);
 });
 
-factual.get('/t/places', {q:"starbucks", filters:{"$or":[{"region":{"$eq":"CA"}},{"locality":"newyork"}]}}, function (error, res) {
+factual.get('/t/places-us', {q:"starbucks", filters:{"$or":[{"region":{"$eq":"CA"}},{"locality":"newyork"}]}}, function (error, res) {
   console.log(res.data);
 });
 
 // Geo filter:
-factual.get('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}, function (error, res) {
+factual.get('/t/places-us', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}, function (error, res) {
+  console.log(res.data);
+});
+
+// Existence threshold:
+factual.get('/t/places-us', {threshold:"confident"}, function (error, res) {
   console.log(res.data);
 });
 
 // Get a row by factual id:
-factual.get('/t/places/03c26917-5d66-4de9-96bc-b13066173c65', function (error, res) {
+factual.get('/t/places-us/03c26917-5d66-4de9-96bc-b13066173c65', function (error, res) {
   console.log(res.data[0]);
 });
 
@@ -54,7 +59,7 @@ factual.get('/t/places/03c26917-5d66-4de9-96bc-b13066173c65', function (error, r
 ## Schema
 Doc: http://developer.factual.com/api-docs/#Schema
 ```javascript
-factual.get('/t/places/schema', function (error, res) {
+factual.get('/t/places-us/schema', function (error, res) {
   console.log(res.view);
 });
 ```
@@ -63,7 +68,7 @@ factual.get('/t/places/schema', function (error, res) {
 Doc: http://developer.factual.com/api-docs/#Facets
 ```javascript
 // show top 5 cities that have more than 20 Starbucks in California
-factual.get('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5}, function (error, res) {
+factual.get('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5}, function (error, res) {
   console.log(res.data);
 });
 ```
@@ -72,12 +77,12 @@ factual.get('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:
 Doc: http://developer.factual.com/api-docs/#Resolve
 ```javascript
 // resovle from name and address info
-factual.get('/t/places/resolve?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
+factual.get('/t/places-us/resolve?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
   console.log(res.data);
 });
 
 // resolve from name and geo location
-factual.get('/t/places/resolve?values={"name":"McDonalds","latitude":34.05671,"longitude":-118.42586}', function (error, res) {
+factual.get('/t/places-us/resolve?values={"name":"McDonalds","latitude":34.05671,"longitude":-118.42586}', function (error, res) {
   console.log(res.data);
 });
 ```
@@ -86,7 +91,7 @@ factual.get('/t/places/resolve?values={"name":"McDonalds","latitude":34.05671,"l
 Doc: http://developer.factual.com/api-docs/#Match
 Match the data with Factual's, but only return the matched Factual ID:
 ```javascript
-factual.get('/t/places/match?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
+factual.get('/t/places-us/match?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
   console.log(res.data);
 });
 ```
@@ -95,7 +100,7 @@ factual.get('/t/places/match?values={"name":"McDonalds","address":"10451 Santa M
 Doc: http://developer.factual.com/places-crosswalk/
 Query with factual id, and only show entites from Yelp:
 ```javascript
-factual.get('/t/crosswalk?filters={"factual_id":"57ddbca5-a669-4fcf-968f-a1c8210a479a","namespace":"yelp"}', function (error, res) {
+factual.get('/t/crosswalk?filters={"factual_id":"3b9e2b46-4961-4a31-b90a-b5e0aed2a45e","namespace":"yelp"}', function (error, res) {
   console.log(res.data);
 });
 ```
@@ -111,8 +116,8 @@ factual.get('/t/crosswalk?filters={"namespace":"foursquare", "namespace_id":"4ae
 Doc: http://developer.factual.com/api-docs/#Multi
 Query read and facets in one request:
 ```javascript
-var readQuery = factual.requestUrl('/t/places', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
-var facetsQuery = factual.requestUrl('/t/places/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
+var readQuery = factual.requestUrl('/t/places-us', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
+var facetsQuery = factual.requestUrl('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
 factual.get('/multi', {queries:{
   read: readQuery,
   facets: facetsQuery
@@ -123,14 +128,6 @@ factual.get('/multi', {queries:{
 ```
 Note that sub-responses in multi's response object might be factual api's error responses.
 
-## Reverse Geocoder
-Doc: http://developer.factual.com/api-docs/#Geocode
-Get the nearest valid address from a latitude and longitude
-```javascript
-factual.get('/places/geocode', {geo:{"$point":[34.06021,-118.41828]}}, function (error, res) {
-  console.log(res.data);
-});
-```
 
 ## World Geographies
 World Geographies contains administrative geographies (states, counties, countries), natural geographies (rivers, oceans, continents), and assorted geographic miscallaney.  This resource is intended to complement the Global Places and add utility to any geo-related content.
