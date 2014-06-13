@@ -2,20 +2,20 @@
 // http://developer.factual.com/display/docs/Core+API+-+Diffs
 
 var auth = require('./auth');
-var Factual = require('../factual-api');
+var Factual = require('factual-api');
 var factual = new Factual(auth.key, auth.secret);
 factual.startDebug();
 
 var now = new Date().getTime();
-var start = now - 7*24*3600*1000; // last week
+var start = now - 1*3600*1000; // 1 hour ago
 
 // callback to handle all the diffs
-factual.get('/t/global/diffs?start='+start+'&end='+now, function (err, res) {
+factual.get('/t/places-us/diffs?start='+start+'&end='+now, function (err, res) {
   console.log(res);
 });
 
 // callback to handle each diff
-factual.get('/t/global/diffs?start='+start+'&end='+now, {
+factual.get('/t/places-us/diffs?start='+start+'&end='+now, {
   customCallback: function (req) {
 
     req.on('response', function (response) {

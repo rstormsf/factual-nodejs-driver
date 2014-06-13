@@ -2,7 +2,7 @@
 // http://developer.factual.com/display/docs/Core+API+-+Submit
 
 var auth = require('./auth');
-var Factual = require('../factual-api');
+var Factual = require('factual-api');
 var factual = new Factual(auth.key, auth.secret);
 factual.startDebug();
 

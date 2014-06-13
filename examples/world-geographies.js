@@ -1,7 +1,7 @@
 // World Geographies doc:
 // http://developer.factual.com/display/docs/World+Geographies
 var auth = require('./auth');
-var Factual = require('../factual-api');
+var Factual = require('factual-api');
 var factual = new Factual(auth.key, auth.secret);
 factual.startDebug();
 
