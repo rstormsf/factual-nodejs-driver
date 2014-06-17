@@ -15,36 +15,57 @@ Include this driver in your projects:
 var Factual = require('factual-api');
 var factual = new Factual('YOUR_KEY', 'YOUR_SECRET');
 ```
-
 If you don't have a Factual API account yet, [it's free and easy to get one](https://www.factual.com/api-keys/request).
 
+## Schema
+Use the schema API call to determine what fields are available, and what operations (sorting, searching, writing) can be performed on each field.
+Full documentation: http://developer.factual.com/api-docs/#Schema
+```javascript
+factual.get('/t/places-us/schema', function (error, res) {
+  console.log(res.view);
+});
+```
+
 ## Read
-Doc: http://developer.factual.com/api-docs/#Read
+Use the read API call to query data in Factual tables with any combination of full-text search, parametric filtering, and geo-location filtering.
+
+Full documentation: http://developer.factual.com/api-docs/#Read
 ```javascript
 // Full-text search:
-factual.get('/t/places-us',{q:"starbucks", "include_count":"true"}, function (error, res) {
+factual.get('/t/places-us',{q:"century city mall", "include_count":"true"}, function (error, res) {
   console.log("show "+ res.included_rows +"/"+ res.total_row_count +" rows:", res.data);
 });
 
 // Row filters:
-factual.get('/t/places-us', {filters:{category_ids:{"$includes":10}}}, function (error, res) {
+//  search restaurants (http://developer.factual.com/working-with-categories/)
+factual.get('/t/places-us', {filters:{category_ids:{"$includes":347}}}, function (error, res) {
   console.log(res.data);
 });
 
-factual.get('/t/places-us', {q:"starbucks", filters:{"region":"CA"}}, function (error, res) {
+//  search for Starbucks in Los Angeles
+factual.get('/t/places-us', {q:"starbucks", filters:{"locality":"los angeles"}}, function (error, res) {
   console.log(res.data);
 });
 
-factual.get('/t/places-us', {q:"starbucks", filters:{"$or":[{"region":{"$eq":"CA"}},{"locality":"newyork"}]}}, function (error, res) {
+//  search for starbucks in Los Angeles or Santa Monica 
+factual.get('/t/places-us', {q:"starbucks", filters:{"$or":[{"locality":{"$eq":"los angeles"}},{"locality":{"$eq":"santa monica"}}]}}, function (error, res) {
+  console.log(res.data);
+});
+
+// Paging:
+//  search for starbucks in Los Angeles or Santa Monica (second page of results):
+factual.get('/t/places-us', {q:"starbucks", filters:{"$or":[{"locality":{"$eq":"los angeles"}},{"locality":{"$eq":"santa monica"}}]}}, offset:20, limit:20, function (error, res) {
   console.log(res.data);
 });
 
 // Geo filter:
-factual.get('/t/places-us', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}}, function (error, res) {
+//  coffee near the Factual office
+factual.get('/t/places-us', {q:"coffee", geo:{"$circle":{"$center":[34.058583, -118.416582],"$meters":1000}}}, function (error, res) {
   console.log(res.data);
 });
 
 // Existence threshold:
+//  prefer precision over recall:
 factual.get('/t/places-us', {threshold:"confident"}, function (error, res) {
   console.log(res.data);
 });
@@ -56,16 +77,9 @@ factual.get('/t/places-us/03c26917-5d66-4de9-96bc-b13066173c65', function (error
 
 ```
 
-## Schema
-Doc: http://developer.factual.com/api-docs/#Schema
-```javascript
-factual.get('/t/places-us/schema', function (error, res) {
-  console.log(res.view);
-});
-```
-
 ## Facets
-Doc: http://developer.factual.com/api-docs/#Facets
+Use the facets call to get total counts, grouped by specified fields.
+Full documentation: http://developer.factual.com/api-docs/#Facets
 ```javascript
 // show top 5 cities that have more than 20 Starbucks in California
 factual.get('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5}, function (error, res) {
@@ -74,7 +88,8 @@ factual.get('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, sele
 ```
 
 ## Resolve
-Doc: http://developer.factual.com/api-docs/#Resolve
+Use resolve to generate a confidence-based match to an existing set of place attributes.
+Full documentation: http://developer.factual.com/api-docs/#Resolve
 ```javascript
 // resovle from name and address info
 factual.get('/t/places-us/resolve?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
@@ -88,8 +103,8 @@ factual.get('/t/places-us/resolve?values={"name":"McDonalds","latitude":34.05671
 ```
 
 ## Match
-Doc: http://developer.factual.com/api-docs/#Match
-Match the data with Factual's, but only return the matched Factual ID:
+Match is similar to resolve, but returns only the Factual ID.
+Full documentation: http://developer.factual.com/api-docs/#Match
 ```javascript
 factual.get('/t/places-us/match?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
   console.log(res.data);
@@ -97,15 +112,16 @@ factual.get('/t/places-us/match?values={"name":"McDonalds","address":"10451 Sant
 ```
 
 ## Crosswalk
-Doc: http://developer.factual.com/places-crosswalk/
-Query with factual id, and only show entites from Yelp:
+Crosswalk contains third party mappings between entities.
+Full documentation: http://developer.factual.com/places-crosswalk/
+// Query with factual id, and only show entites from Yelp:
 ```javascript
 factual.get('/t/crosswalk?filters={"factual_id":"3b9e2b46-4961-4a31-b90a-b5e0aed2a45e","namespace":"yelp"}', function (error, res) {
   console.log(res.data);
 });
 ```
 
-Or query with an entity from Foursquare:
+// query with an entity from Foursquare:
 ```javascript
 factual.get('/t/crosswalk?filters={"namespace":"foursquare", "namespace_id":"4ae4df6df964a520019f21e3"}', function (error, res) {
   console.log(res.data);
@@ -113,8 +129,9 @@ factual.get('/t/crosswalk?filters={"namespace":"foursquare", "namespace_id":"4ae
 ```
 
 ## Multi
-Doc: http://developer.factual.com/api-docs/#Multi
-Query read and facets in one request:
+Make up to three simultaneous requests over a single HTTP connection. Note: while the requests are performed in parallel, the final response is not returned until all contained requests are complete. As such, you shouldn't use multi if you want non-blocking behavior. Also note that a contained response may include an API error message, if appropriate.
+Full documentation: http://developer.factual.com/api-docs/#Multi
+// Query read and facets in one request:
 ```javascript
 var readQuery = factual.requestUrl('/t/places-us', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
 var facetsQuery = factual.requestUrl('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
@@ -126,11 +143,10 @@ factual.get('/multi', {queries:{
   console.log('facets:', res.facets.response);
 });
 ```
-Note that sub-responses in multi's response object might be factual api's error responses.
-
 
 ## World Geographies
 World Geographies contains administrative geographies (states, counties, countries), natural geographies (rivers, oceans, continents), and assorted geographic miscallaney.  This resource is intended to complement the Global Places and add utility to any geo-related content.
+
 ```javascript
 factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":"08ca0f62-8f76-11e1-848f-cfd5bf3ef515"}}', function (error, res) {
   console.log(res.data);
@@ -138,7 +154,8 @@ factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":
 ```
 
 ## Submit
-Doc: http://developer.factual.com/api-docs/#Submit
+Submit new data, or update existing data. Submit behaves as an "upsert", meaning that Factual will attempt to match the provided data against any existing places first. Note: you should ALWAYS store the commit ID returned from the response for any future support requests.
+Full documentation: http://developer.factual.com/api-docs/#Submit
 
 ```javascript
 factual.post('/t/us-sandbox/submit', {
@@ -174,7 +191,8 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7fsubmit', {
 
 
 ## Flag
-Doc: http://developer.factual.com/api-docs/#Flag
+Use the flag API to flag basic problems with existing data.
+Full documentation: http://developer.factual.com/api-docs/#Flag
 
 Flag a row as being a duplicate of another. The *preferred* entity that should persist is passed as a GET parameter.
 ```javascript
@@ -210,11 +228,12 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
 ```
 
 ## Clear
-Doc: http://developer.factual.com/api-docs/#Clear
-Clear existing attributes in an entity
+The clear API is used to signal that an existing attribute should be reset.
+Full documentation: http://developer.factual.com/api-docs/#Clear
+
 ```javascript
 factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/clear', {
-  fields: "address_extended,latitude,longitude",
+  fields: "latitude,longitude",
   user: "a_user_id"
 }, function (error, res) {
   if (!error) console.log("success");
@@ -222,7 +241,8 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/clear', {
 ```
 
 ## Boost
-Doc: http://developer.factual.com/api-docs/#Boost
+The boost API is used to signal rows that should appear higher in search results.
+Full documentation: http://developer.factual.com/api-docs/#Boost
 ```javascript
 factual.post('/t/us-sandbox/boost', {
   factual_id: '4e4a14fe-988c-4f03-a8e7-0efc806d0a7f',
@@ -232,7 +252,6 @@ factual.post('/t/us-sandbox/boost', {
   if (!error) console.log("success");
 });
 ```
-
 
 
 ## Error Handling
