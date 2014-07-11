@@ -10,15 +10,15 @@ $ npm install factual-api
 
 # Get Started
 
-Include this driver in your projects:
+Include this driver in your project:
 ```javascript
 var Factual = require('factual-api');
 var factual = new Factual('YOUR_KEY', 'YOUR_SECRET');
 ```
-If you don't have a Factual API account yet, [it's free and easy to get one](https://www.factual.com/api-keys/request).
+If you don't have a Factual API key yet, [it's free and easy to get one](https://www.factual.com/api-keys/request).
 
 ## Schema
-Use the schema API call to determine what fields are available, and what operations (sorting, searching, writing) can be performed on each field.
+Use the schema API call to determine which fields are available, the datatypes of those fields, and which operations (sorting, searching, writing, facetting) can be performed on each field.
 
 Full documentation: http://developer.factual.com/api-docs/#Schema
 ```javascript
@@ -32,7 +32,7 @@ Use the read API call to query data in Factual tables with any combination of fu
 
 Full documentation: http://developer.factual.com/api-docs/#Read
 
-Related documentation:
+Related place-specific documentation:
 * Categories: http://developer.factual.com/working-with-categories/
 * Placerank, Sorting: http://developer.factual.com/search-placerank-and-boost/
 
@@ -95,7 +95,7 @@ factual.get('/t/places-us/03c26917-5d66-4de9-96bc-b13066173c65', function (error
 ```
 
 ## Facets
-Use the facets call to get total counts, grouped by specified fields.
+Use the facets call to get summarized counts, grouped by specified fields.
 
 Full documentation: http://developer.factual.com/api-docs/#Facets
 ```javascript
@@ -122,7 +122,7 @@ factual.get('/t/places-us/resolve?values={"name":"McDonalds","latitude":34.05671
 ```
 
 ## Match
-Match is similar to resolve, but returns only the Factual ID.
+Match is similar to resolve, but returns only the Factual ID and is intended for high volume mapping.
 
 Full documentation: http://developer.factual.com/api-docs/#Match
 ```javascript
@@ -169,11 +169,11 @@ factual.get('/t/world-geographies?', {q:"los angeles",filters:{"$and":[{"ancesto
 ```
 
 ## Submit
-Submit new data, or update existing data. Submit behaves as an "upsert", meaning that Factual will attempt to match the provided data against any existing places first. Note: you should ALWAYS store the commit ID returned from the response for any future support requests.
+Submit new data, or update existing data. Submit behaves as an "upsert", meaning that Factual will attempt to match the provided data against any existing places first. Note: you should ALWAYS store the *commit ID* returned from the response for any future support requests.
 
 Full documentation: http://developer.factual.com/api-docs/#Submit
 
-Place specific Write API examples: http://developer.factual.com/write-api/
+Place-specific Write API documentation: http://developer.factual.com/write-api/
 
 ```javascript
 factual.post('/t/us-sandbox/submit', {
@@ -210,11 +210,11 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/submit', {
 
 
 ## Flag
-Use the flag API to flag basic problems with existing data.
+Use the flag API to flag problems in existing data.
 
 Full documentation: http://developer.factual.com/api-docs/#Flag
 
-Flag a places as being a duplicate of another. The *preferred* entity that should persist is passed as a GET parameter.
+Flag a place that is a duplicate of another. The *preferred* entity that should persist is passed as a GET parameter.
 ```javascript
 factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "duplicate",
@@ -225,7 +225,7 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
 });
 ```
 
-Flag a places as being closed.
+Flag a places that is closed.
 ```javascript
 factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "closed",
@@ -236,7 +236,7 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
 });
 ```
 
-Flag a place that has been relocated to redirect to the new location. The *preferred* entity that should persist is passed as a GET parameter.
+Flag a place that has been relocated, so that it will redirect to the new location. The *preferred* entity (the current location) is passed as a GET parameter. The old location is identified in the URL.
 ```javascript
 factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', 
 {
@@ -249,7 +249,7 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag',
 ```
 
 ## Clear
-The clear API is used to signal that an existing attribute should be reset.
+The clear API is used to signal that an existing attribute's value should be reset.
 
 Full documentation: http://developer.factual.com/api-docs/#Clear
 ```javascript
