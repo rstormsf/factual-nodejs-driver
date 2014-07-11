@@ -311,8 +311,8 @@ factual.stopDebug();
 Debug Mode will output useful information about what's going on, including  the request sent to Factual and the response from Factual, outputting to stdout and stderr.
 
 
-## Use custom timeout
-You can set the request timeout(in milliseconds) now:
+## Custom timeouts
+You can set the request timeout (in milliseconds):
 ```javascript
 // set the timeout as 1 second
 factual.setRequestTimeout(1000);
@@ -331,4 +331,4 @@ If you think you've identified a specific bug in this driver, please file an iss
   * What actually happened
   * Detailed stack trace and/or line numbers
 
-If you are having any other kind of issue, such as unexpected data or strange behaviour from Factual's API (or you're just not sure WHAT'S going on), please contact us through [GetSatisfaction](http://support.factual.com/factual).
+If you are having any other kind of issue, such as unexpected data or strange behaviour from Factual's API (or you're just not sure WHAT'S going on), please contact us through the [Fatual support site](http://support.factual.com/factual).
