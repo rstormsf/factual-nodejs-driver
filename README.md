@@ -169,6 +169,7 @@ factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":
 ## Submit
 Submit new data, or update existing data. Submit behaves as an "upsert", meaning that Factual will attempt to match the provided data against any existing places first. Note: you should ALWAYS store the commit ID returned from the response for any future support requests.
 Full documentation: http://developer.factual.com/api-docs/#Submit
+Place specific Write API examples: http://developer.factual.com/write-api/
 
 ```javascript
 factual.post('/t/us-sandbox/submit', {
