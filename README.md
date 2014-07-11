@@ -19,6 +19,7 @@ If you don't have a Factual API account yet, [it's free and easy to get one](htt
 
 ## Schema
 Use the schema API call to determine what fields are available, and what operations (sorting, searching, writing) can be performed on each field.
+
 Full documentation: http://developer.factual.com/api-docs/#Schema
 ```javascript
 factual.get('/t/places-us/schema', function (error, res) {
@@ -90,6 +91,7 @@ factual.get('/t/places-us/03c26917-5d66-4de9-96bc-b13066173c65', function (error
 
 ## Facets
 Use the facets call to get total counts, grouped by specified fields.
+
 Full documentation: http://developer.factual.com/api-docs/#Facets
 ```javascript
 // show top 5 cities that have more than 20 Starbucks in California
@@ -100,6 +102,7 @@ factual.get('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, sele
 
 ## Resolve
 Use resolve to generate a confidence-based match to an existing set of place attributes.
+
 Full documentation: http://developer.factual.com/api-docs/#Resolve
 ```javascript
 // resovle from name and address info
@@ -115,6 +118,7 @@ factual.get('/t/places-us/resolve?values={"name":"McDonalds","latitude":34.05671
 
 ## Match
 Match is similar to resolve, but returns only the Factual ID.
+
 Full documentation: http://developer.factual.com/api-docs/#Match
 ```javascript
 factual.get('/t/places-us/match?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
@@ -124,6 +128,7 @@ factual.get('/t/places-us/match?values={"name":"McDonalds","address":"10451 Sant
 
 ## Crosswalk
 Crosswalk contains third party mappings between entities.
+
 Full documentation: http://developer.factual.com/places-crosswalk/
 
 ```javascript
@@ -142,6 +147,7 @@ factual.get('/t/crosswalk?filters={"namespace":"foursquare", "namespace_id":"4ae
 
 ## Multi
 Make up to three simultaneous requests over a single HTTP connection. Note: while the requests are performed in parallel, the final response is not returned until all contained requests are complete. As such, you shouldn't use multi if you want non-blocking behavior. Also note that a contained response may include an API error message, if appropriate.
+
 Full documentation: http://developer.factual.com/api-docs/#Multi
 
 ```javascript
@@ -168,7 +174,9 @@ factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":
 
 ## Submit
 Submit new data, or update existing data. Submit behaves as an "upsert", meaning that Factual will attempt to match the provided data against any existing places first. Note: you should ALWAYS store the commit ID returned from the response for any future support requests.
+
 Full documentation: http://developer.factual.com/api-docs/#Submit
+
 Place specific Write API examples: http://developer.factual.com/write-api/
 
 ```javascript
@@ -206,6 +214,7 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7fsubmit', {
 
 ## Flag
 Use the flag API to flag basic problems with existing data.
+
 Full documentation: http://developer.factual.com/api-docs/#Flag
 
 Flag a places as being a duplicate of another. The *preferred* entity that should persist is passed as a GET parameter.
@@ -232,8 +241,8 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
 
 ## Clear
 The clear API is used to signal that an existing attribute should be reset.
-Full documentation: http://developer.factual.com/api-docs/#Clear
 
+Full documentation: http://developer.factual.com/api-docs/#Clear
 ```javascript
 factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/clear', {
   fields: "latitude,longitude",
@@ -245,6 +254,7 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/clear', {
 
 ## Boost
 The boost API is used to signal rows that should appear higher in search results.
+
 Full documentation: http://developer.factual.com/api-docs/#Boost
 ```javascript
 factual.post('/t/us-sandbox/boost', {
