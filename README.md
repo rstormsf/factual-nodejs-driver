@@ -150,24 +150,6 @@ factual.get('/t/crosswalk?filters={"namespace":"foursquare", "namespace_id":"4ae
 });
 ```
 
-## Multi
-Make up to three simultaneous requests over a single HTTP connection. Note: while the requests are performed in parallel, the final response is not returned until all contained requests are complete. As such, you shouldn't use multi if you want non-blocking behavior. Also note that a contained response may include an API error message, if appropriate.
-
-Full documentation: http://developer.factual.com/api-docs/#Multi
-
-```javascript
-// Query read and facets in one request:
-var readQuery = factual.requestUrl('/t/places-us', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
-var facetsQuery = factual.requestUrl('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
-factual.get('/multi', {queries:{
-  read: readQuery,
-  facets: facetsQuery
-}}, function (error, res) {
-  console.log('read:', res.read.response);
-  console.log('facets:', res.facets.response);
-});
-```
-
 ## World Geographies
 World Geographies contains administrative geographies (states, counties, countries), natural geographies (rivers, oceans, continents), and assorted geographic miscallaney.  This resource is intended to complement the Global Places and add utility to any geo-related content.
 
@@ -290,6 +272,24 @@ factual.post('/t/us-sandbox/boost', {
   user: "a_user_id"
 }, function (error, res) {
   if (!error) console.log("success");
+});
+```
+
+## Multi
+Make up to three simultaneous requests over a single HTTP connection. Note: while the requests are performed in parallel, the final response is not returned until all contained requests are complete. As such, you shouldn't use multi if you want non-blocking behavior. Also note that a contained response may include an API error message, if appropriate.
+
+Full documentation: http://developer.factual.com/api-docs/#Multi
+
+```javascript
+// Query read and facets in one request:
+var readQuery = factual.requestUrl('/t/places-us', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
+var facetsQuery = factual.requestUrl('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
+factual.get('/multi', {queries:{
+  read: readQuery,
+  facets: facetsQuery
+}}, function (error, res) {
+  console.log('read:', res.read.response);
+  console.log('facets:', res.facets.response);
 });
 ```
 
