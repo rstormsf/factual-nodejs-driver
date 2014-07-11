@@ -48,7 +48,7 @@ factual.get('/t/places-us', {filters:{category_ids:{"$includes_any":[312,347]}}}
   console.log(res.data);
 });
 
-// search entertainment venues but NOT adult entertainment
+//  search entertainment venues but NOT adult entertainment
 factual.get('/t/places-us', {filters:{"$and":[{category_ids:{"$includes":317}},{category_ids:{"excludes":318}}], function (error, res) {
   console.log(res.data);
 });
@@ -125,15 +125,16 @@ factual.get('/t/places-us/match?values={"name":"McDonalds","address":"10451 Sant
 ## Crosswalk
 Crosswalk contains third party mappings between entities.
 Full documentation: http://developer.factual.com/places-crosswalk/
-// Query with factual id, and only show entites from Yelp:
+
 ```javascript
+// Query with factual id, and only show entites from Yelp:
 factual.get('/t/crosswalk?filters={"factual_id":"3b9e2b46-4961-4a31-b90a-b5e0aed2a45e","namespace":"yelp"}', function (error, res) {
   console.log(res.data);
 });
 ```
 
-// query with an entity from Foursquare:
 ```javascript
+// query with an entity from Foursquare:
 factual.get('/t/crosswalk?filters={"namespace":"foursquare", "namespace_id":"4ae4df6df964a520019f21e3"}', function (error, res) {
   console.log(res.data);
 });
@@ -142,8 +143,9 @@ factual.get('/t/crosswalk?filters={"namespace":"foursquare", "namespace_id":"4ae
 ## Multi
 Make up to three simultaneous requests over a single HTTP connection. Note: while the requests are performed in parallel, the final response is not returned until all contained requests are complete. As such, you shouldn't use multi if you want non-blocking behavior. Also note that a contained response may include an API error message, if appropriate.
 Full documentation: http://developer.factual.com/api-docs/#Multi
-// Query read and facets in one request:
+
 ```javascript
+// Query read and facets in one request:
 var readQuery = factual.requestUrl('/t/places-us', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
 var facetsQuery = factual.requestUrl('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
 factual.get('/multi', {queries:{
@@ -205,7 +207,7 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7fsubmit', {
 Use the flag API to flag basic problems with existing data.
 Full documentation: http://developer.factual.com/api-docs/#Flag
 
-Flag a row as being a duplicate of another. The *preferred* entity that should persist is passed as a GET parameter.
+Flag a places as being a duplicate of another. The *preferred* entity that should persist is passed as a GET parameter.
 ```javascript
 factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "duplicate",
@@ -216,23 +218,12 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
 });
 ```
 
-Flag a row as being spam.
+Flag a places as being closed.
 ```javascript
 factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
-  problem: "spam",
+  problem: "closed",
   user: "a_user_id",
-  comment: "Known spammer."
-}, function (error, res) {
-  if (!error) console.log("success");
-});
-```
-
-Flag a row as having inaccurate data. This presumes you don't know the more accurate data. If you do, the preferred option is to use the *submit* API call to submit the updated data.
-```javascript
-factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
-  problem: "inaccurate",
-  fields: JSON.stringify(["latitude","longitude"]),
-  user: "a_user_id"
+  comment: "was shut down when I went there yesterday."
 }, function (error, res) {
   if (!error) console.log("success");
 });
