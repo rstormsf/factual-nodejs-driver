@@ -31,6 +31,12 @@ factual.get('/t/places-us/schema', function (error, res) {
 Use the read API call to query data in Factual tables with any combination of full-text search, parametric filtering, and geo-location filtering.
 
 Full documentation: http://developer.factual.com/api-docs/#Read
+
+Related documentation:
+
+Categories: http://developer.factual.com/working-with-categories/
+Placerank, Sorting: http://developer.factual.com/search-placerank-and-boost/
+
 ```javascript
 // Full-text search:
 factual.get('/t/places-us',{q:"century city mall", "include_count":"true"}, function (error, res) {
@@ -202,7 +208,7 @@ factual.post('/t/us-sandbox/submit', {
 
 Edit an existing row:
 ```javascript
-factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7fsubmit', {
+factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/submit', {
   values: JSON.stringify({
     address_extended: "35th floor"
   }),
