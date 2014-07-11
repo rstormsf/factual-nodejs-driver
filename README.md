@@ -38,7 +38,18 @@ factual.get('/t/places-us',{q:"century city mall", "include_count":"true"}, func
 
 // Row filters:
 //  search restaurants (http://developer.factual.com/working-with-categories/)
+//  note that this will return all sub-categories of 347 as well.
 factual.get('/t/places-us', {filters:{category_ids:{"$includes":347}}}, function (error, res) {
+  console.log(res.data);
+});
+
+//  search restaurants or bars
+factual.get('/t/places-us', {filters:{category_ids:{"$includes_any":[312,347]}}}, function (error, res) {
+  console.log(res.data);
+});
+
+// search entertainment venues but NOT adult entertainment
+factual.get('/t/places-us', {filters:{"$and":[{category_ids:{"$includes":317}},{category_ids:{"excludes":318}}], function (error, res) {
   console.log(res.data);
 });
 
