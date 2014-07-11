@@ -172,7 +172,16 @@ factual.get('/multi', {queries:{
 World Geographies contains administrative geographies (states, counties, countries), natural geographies (rivers, oceans, continents), and assorted geographic miscallaney.  This resource is intended to complement the Global Places and add utility to any geo-related content.
 
 ```javascript
-factual.get('/t/world-geographies?select=neighbors&filters={"factual_id":{"$eq":"08ca0f62-8f76-11e1-848f-cfd5bf3ef515"}}', function (error, res) {
+// find California, USA
+factual.get('/t/world-geographies?', {q:"los angeles",filters:{"$and":[{"name":{"$eq":"California"}},{"country":{"$eq":"US"}},{"placetype":{"$eq":"region"}}]},select:"contextname,factual_id"}, function (error, res) {
+  console.log(res.data);
+});
+// returns 08649c86-8f76-11e1-848f-cfd5bf3ef515 as the Factual Id of "California, US"
+```
+
+```javascript
+// find cities and town in California (first 20 rows)
+factual.get('/t/world-geographies?', {q:"los angeles",filters:{"$and":[{"ancestors":{"$includes":"08649c86-8f76-11e1-848f-cfd5bf3ef515"}},{"country":{"$eq":"US"}},{"placetype":{"$eq":"locality"}}]},select:"contextname,factual_id"}, function (error, res) {
   console.log(res.data);
 });
 ```
@@ -240,6 +249,18 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "closed",
   user: "a_user_id",
   comment: "was shut down when I went there yesterday."
+}, function (error, res) {
+  if (!error) console.log("success");
+});
+```
+
+Flag a place that has been relocated to redirect to the new location. The *preferred* entity that should persist is passed as a GET parameter.
+```javascript
+factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', 
+{
+  problem: "relocated",
+  preferred: "9d676355-6c74-4cf6-8c4a-03fdaaa2d66a",
+  user: "a_user_id"
 }, function (error, res) {
   if (!error) console.log("success");
 });
