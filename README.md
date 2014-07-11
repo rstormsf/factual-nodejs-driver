@@ -331,4 +331,4 @@ If you think you've identified a specific bug in this driver, please file an iss
   * What actually happened
   * Detailed stack trace and/or line numbers
 
-If you are having any other kind of issue, such as unexpected data or strange behaviour from Factual's API (or you're just not sure WHAT'S going on), please contact us through the [Fatual support site](http://support.factual.com/factual).
+If you are having any other kind of issue, such as unexpected data or strange behaviour from Factual's API (or you're just not sure WHAT'S going on), please contact us through the [Factual support site](http://support.factual.com/factual).
