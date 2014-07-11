@@ -33,9 +33,8 @@ Use the read API call to query data in Factual tables with any combination of fu
 Full documentation: http://developer.factual.com/api-docs/#Read
 
 Related documentation:
-
-Categories: http://developer.factual.com/working-with-categories/
-Placerank, Sorting: http://developer.factual.com/search-placerank-and-boost/
+* Categories: http://developer.factual.com/working-with-categories/
+* Placerank, Sorting: http://developer.factual.com/search-placerank-and-boost/
 
 ```javascript
 // Full-text search:
