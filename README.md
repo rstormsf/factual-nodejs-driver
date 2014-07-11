@@ -190,8 +190,9 @@ factual.post('/t/us-sandbox/submit', {
     postcode: "90067"
     country: "us"
     latitude: 34.058743,
-    longitude: -118.41694
-    category_ids: "209"
+    longitude: -118.41694,
+    category_ids: [209,213],
+    hours: "Mon 11:30am-2pm Tue-Fri 11:30am-2pm, 5:30pm-9pm Sat-Sun closed"
   }),
   user: "a_user_id"
 }, function (error, res) {
