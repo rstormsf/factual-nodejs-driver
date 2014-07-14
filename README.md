@@ -225,7 +225,7 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
 });
 ```
 
-Flag a places that is closed.
+Flag a place that is closed.
 ```javascript
 factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag', {
   problem: "closed",
