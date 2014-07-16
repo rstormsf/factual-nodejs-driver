@@ -81,6 +81,12 @@ factual.get('/t/places-us', {q:"coffee", geo:{"$circle":{"$center":[34.058583, -
   console.log(res.data);
 });
 
+// Hours filter:
+//  coffee near Factual open at 9:00 pm on a Wednesday
+factual.get('/t/places-us', {q:"coffee", hours:{"$open":{"day":"wed","time":"09:00 pm"}} ,geo:{"$circle":{"$center":[34.058583, -118.416582],"$meters":2500}}}, function (error, res) {
+  console.log(res.data);
+});
+
 // Existence threshold:
 //  prefer precision over recall:
 factual.get('/t/places-us', {threshold:"confident"}, function (error, res) {
