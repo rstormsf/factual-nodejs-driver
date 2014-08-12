@@ -183,8 +183,8 @@ factual.post('/t/us-sandbox/submit', {
     address_extended: "34th floor",
     locality: "Los Angeles",
     region: "CA",
-    postcode: "90067"
-    country: "us"
+    postcode: "90067",
+    country: "us",
     latitude: 34.058743,
     longitude: -118.41694,
     category_ids: [209,213],
