@@ -121,16 +121,6 @@ factual.get('/t/places-us/resolve?values={"name":"McDonalds","latitude":34.05671
 });
 ```
 
-## Match
-Match is similar to resolve, but returns only the Factual ID and is intended for high volume mapping.
-
-Full documentation: http://developer.factual.com/api-docs/#Match
-```javascript
-factual.get('/t/places-us/match?values={"name":"McDonalds","address":"10451 Santa Monica Blvd","region":"CA","postcode":"90025"}', function (error, res) {
-  console.log(res.data);
-});
-```
-
 ## Crosswalk
 Crosswalk contains third party mappings between entities.
 
@@ -196,19 +186,6 @@ factual.post('/t/us-sandbox/submit', {
 });
 ```
 
-Edit an existing row:
-```javascript
-factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/submit', {
-  values: JSON.stringify({
-    address_extended: "35th floor"
-  }),
-  user: "a_user_id"
-}, function (error, res) {
-  console.log(res);
-});
-```
-
-
 ## Flag
 Use the flag API to flag problems in existing data.
 
@@ -247,52 +224,6 @@ factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/flag',
   if (!error) console.log("success");
 });
 ```
-
-## Clear
-The clear API is used to signal that an existing attribute's value should be reset.
-
-Full documentation: http://developer.factual.com/api-docs/#Clear
-```javascript
-factual.post('/t/us-sandbox/4e4a14fe-988c-4f03-a8e7-0efc806d0a7f/clear', {
-  fields: "latitude,longitude",
-  user: "a_user_id"
-}, function (error, res) {
-  if (!error) console.log("success");
-});
-```
-
-## Boost
-The boost API is used to signal rows that should appear higher in search results.
-
-Full documentation: http://developer.factual.com/api-docs/#Boost
-```javascript
-factual.post('/t/us-sandbox/boost', {
-  factual_id: '4e4a14fe-988c-4f03-a8e7-0efc806d0a7f',
-  q: "local business data",
-  user: "a_user_id"
-}, function (error, res) {
-  if (!error) console.log("success");
-});
-```
-
-## Multi
-Make up to three simultaneous requests over a single HTTP connection. Note: while the requests are performed in parallel, the final response is not returned until all contained requests are complete. As such, you shouldn't use multi if you want non-blocking behavior. Also note that a contained response may include an API error message, if appropriate.
-
-Full documentation: http://developer.factual.com/api-docs/#Multi
-
-```javascript
-// Query read and facets in one request:
-var readQuery = factual.requestUrl('/t/places-us', {q:"starbucks", geo:{"$circle":{"$center":[34.041195,-118.331518],"$meters":1000}}});
-var facetsQuery = factual.requestUrl('/t/places-us/facets', {q:"starbucks", filters:{"region":"CA"}, select:"locality", "min_count":20, limit:5});
-factual.get('/multi', {queries:{
-  read: readQuery,
-  facets: facetsQuery
-}}, function (error, res) {
-  console.log('read:', res.read.response);
-  console.log('facets:', res.facets.response);
-});
-```
-
 
 ## Error Handling
 The error object is the first argument of the callback functions, it will be null if no errors.
